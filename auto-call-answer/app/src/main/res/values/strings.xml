@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Auto Call Answer</string>
+    <string name="service_notification_title">Auto Call Answer active</string>
+    <string name="service_notification_text">Monitoring incoming calls</string>
+    <string name="enable_auto_answer">Enable auto-answer</string>
+    <string name="openai_api_key">OpenAI API key</string>
+    <string name="api_key_hint">sk-…</string>
+    <string name="greeting_message">Greeting message</string>
+    <string name="greeting_hint">Hello, the owner is unavailable. How can I help you?</string>
+    <string name="save_settings">Save settings</string>
+    <string name="permissions_required">Permissions required</string>
+    <string name="grant_permissions">Grant permissions</string>
+    <string name="status_enabled">Auto-answer is ON</string>
+    <string name="status_disabled">Auto-answer is OFF</string>
+    <string name="default_dialer_hint">Set as default phone app for best reliability on Android 10+</string>
+    <string name="set_default_dialer">Set as default phone app</string>
+    <string name="settings_saved">Settings saved</string>
+    <string name="missing_api_key">Add an OpenAI API key to enable AI responses</string>
+</resources>
