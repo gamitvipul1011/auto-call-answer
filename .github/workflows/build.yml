@@ -1,0 +1,53 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+    
+    - name: ☕ Setup JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    
+    - name: 🤖 Setup Android SDK
+      uses: android-actions/setup-android@v3
+    
+    - name: 📝 Create gradlew if missing
+      run: |
+        if [ ! -f "./gradlew" ]; then
+          gradle wrapper --gradle-version 8.5
+        fi
+    
+    - name: 🔧 Grant Execute Permission
+      run: chmod +x ./gradlew
+    
+    - name: 🏗️ Build Debug APK
+      run: ./gradlew assembleDebug --stacktrace
+    
+    - name: 📦 Find APK Files
+      run: find . -name "*.apk" -type f
+    
+    - name: ☁️ Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: auto-call-answer-apk
+        path: app/build/outputs/apk/debug/*.apk
+        retention-days: 30
+    
+    - name: 📊 Build Summary
+      if: success()
+      run: |
+        echo "## 🎉 Build Successful!" >> $GITHUB_STEP_SUMMARY
+        echo "✅ APK is ready to download" >> $GITHUB_STEP_SUMMARY
+        echo "📥 Scroll down to **Artifacts** section" >> $GITHUB_STEP_SUMMARY
