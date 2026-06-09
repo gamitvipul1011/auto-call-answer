@@ -1,13 +1,39 @@
 workflows:
   android-build:
-    name: Build APK
+    name: Voice Call Answer
     max_build_duration: 60
     environment:
       java: latest
     scripts:
-      - name: Build
+      - name: Navigate to Project
         script: |
-          chmod +x ./gradlew || true
-          ./gradlew assembleDebug --stacktrace
+          echo "📁 Current directory:"
+          pwd
+          echo "📂 Listing files:"
+          ls -la
+          # Try to find the actual project folder
+          if [ -d "auto-call-answer" ]; then
+            cd auto-call-answer
+            echo "✅ Found auto-call-answer folder, navigating there"
+          fi
+      - name: Install Gradle
+        script: |
+          echo "⬇️ Downloading Gradle 8.9..."
+          wget -q https://services.gradle.org/distributions/gradle-8.9-bin.zip
+          unzip -q gradle-8.9-bin.zip -d /opt/gradle
+          export PATH=$PATH:/opt/gradle-8.9/bin
+          echo "✅ Gradle installed"
+      - name: Build APK
+        script: |
+          # Make gradlew executable if it exists
+          if [ -f "./gradlew" ]; then
+            chmod +x ./gradlew
+            echo "🔨 Building with gradlew..."
+            ./gradlew assembleDebug --stacktrace
+          else
+            echo "🔨 Building with gradle directly..."
+            gradle assembleDebug --stacktrace
+          fi
     artifacts:
       - app/build/outputs/apk/debug/*.apk
+      - auto-call-answer/app/build/outputs/apk/debug/*.apk
